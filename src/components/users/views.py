@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, request,flash
+from flask import Blueprint, Flask, request, render_template, redirect, url_for, flash
 from flask_login import LoginManager, login_required, login_user, logout_user, UserMixin, current_user
 from src import db
 from src.components.users.forms import Register, Login
@@ -7,7 +7,7 @@ from src.models.user import User
 users_blueprint = Blueprint('users',
                              __name__,
                              template_folder='../../templates/users')
-
+    
 @users_blueprint.route('/register', methods=['POST', 'GET'])
 def register():
     form = Register()
@@ -33,6 +33,7 @@ def login():
         check = User.query.filter_by(email=form.email.data).first()
         if check:
             if check.check_pass(form.password.data):
+                print("checklogin")
                 login_user(check)
                 return redirect(url_for('home'))
         else:

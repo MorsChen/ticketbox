@@ -4,6 +4,7 @@ import os
 from flask_migrate import Migrate
 from flask_login import LoginManager
 
+
 app = Flask(__name__)
 login = LoginManager(app)
 POSTGRES = {
@@ -29,3 +30,16 @@ app.register_blueprint(events_blueprint, url_prefix='/events')
 
 from src.components.users.views import users_blueprint
 app.register_blueprint(users_blueprint, url_prefix='/users')
+
+from src.components.tickets.views import tickets_blueprint
+app.register_blueprint(tickets_blueprint, url_prefix='/tickets')
+
+from src.components.posts.views import posts_blueprint
+app.register_blueprint(posts_blueprint, url_prefix='/posts')
+
+
+from src.models.user import User
+
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))  

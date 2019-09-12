@@ -10,10 +10,10 @@ class Event(db.Model):
     name = db.Column(db.String(80), nullable=False)
     owner_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     description = db.Column(db.Text, nullable=False)
-    image_url: db.Column(db.String(200), nullable=False)
-    price: db.Column(db.Integer, default=0)
-    address: db.Column(db.String(100), nullable=False)
-    time: db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    image_url = db.Column(db.String, nullable=False)
+    price = db.Column(db.Integer, default=0)
+    address = db.Column(db.String(200), nullable=False)
+    time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __init__(self, name, description, image_url, price, address, time):
         self.name = name
