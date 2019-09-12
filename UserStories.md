@@ -47,3 +47,58 @@ The person with best test coverage will win a small present from the instructor 
         * You can use `/events/mine` [collection routes](http://guides.rubyonrails.org/routing.html#adding-more-restful-actions)
 * [ ] Users can edit their event after creation. But only the user who created the event can edit the event.
     * **HINT**: use a `before_action :c
+
+
+    ---
+title: FTW Ticketbox
+tag: ftw ticketbox yosemite
+---
+FTW - Ticketbox
+
+1. Define requirement
+- User management
+    - **Buy ticket from event (4)**
+    - Profile: image, gender, age, email bla bla
+        - Validate input
+            - Email, username
+   
+    - Purchase history
+    - Notification of event __(***)__
+    - Rating __(*)__
+    - **Login/Logout (1)**
+        - Human verification __(**)__
+        - Username/password
+        - Facebook/Github/Google __(**)__
+        - Change the password
+        - Forget password __(***)__
+- Event management
+    - Search event
+    - Recommend event
+        - Base on popularity of event __(*****)__
+    - **Add event: (2)**
+        - Title
+        - Image
+        - Tag
+        - Datetime
+            - Start
+            - End
+        - Location
+        - Description
+            - Infomation about event
+            - Organizer
+        - Ticket
+            - Price
+            - Discount code
+    - **Edit/Delete event (3)**
+    - Share event
+        - short url __(***)__
+        - share to social network __(**)__
+        - Invite
+    - Public / Private event __(***)__
+        - Age restrictive: for example 18+ event __(*)__
+- Check in
+    - Verify bar code
+    - pin code to activate
+3. Design database
+- 
+5. Implement feature
