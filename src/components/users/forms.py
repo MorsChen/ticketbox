@@ -8,9 +8,13 @@ class Register(FlaskForm):
                                                     Length(min=3, max=20, message='username must have at least 3 chars and max 20 chars')])
     email = StringField("Email Address", validators=[
                         DataRequired(),  Email("Please input an appropriate email address")])
-    password = PasswordField("Password", validators=[
-                             DataRequired(), EqualTo('confirm')])
+    password = PasswordField("Password", validators=[DataRequired(), EqualTo('confirm')])
     confirm = StringField("Confirm", validators=[DataRequired()])
+    
+    address = StringField("Address", validators=[DataRequired('Please input an appropriate your address'), 
+                                                    Length(min=3, max=200, message='username must have at least 3 chars and max 200 chars')])
+    phone =StringField("Phone Number", validators=[DataRequired("Please input your number phone"),
+                                                   Length(min=3, max=13, message='username must have at least 3 chars and max 13 chars')])
     submit = SubmitField("Register")
 
     def validate_username(self, field):
