@@ -1,7 +1,8 @@
 from flask import Blueprint, Flask, request, render_template, redirect, url_for, flash
-from flask_login import LoginManager, login_required, login_user, logout_user, UserMixin, current_user
+from flask_login import LoginManager, login_user, logout_user, UserMixin, current_user, login_required
 from src import db
 from src.components.users.forms import Register, Login
+from src.models.order import Order
 from src.models.user import User
 
 users_blueprint = Blueprint('users',
@@ -14,7 +15,9 @@ def register():
     if request.method == 'POST':
         if form.validate_on_submit():
             new_user = User(username=form.username.data,
-                             email=form.email.data,)
+                             email=form.email.data,
+                             address=form.address.data,
+                             phone=form.phone.data)
             new_user.set_pass(form.password.data)
             db.session.add(new_user)
             db.session.commit()
@@ -22,7 +25,7 @@ def register():
         else:
             for field_name, errors in form.errors.items():
                 flash(errors)
-            return redirect(url_for('register'))
+            return redirect(url_for('users.register'))
     return render_template('register.html', form=form)
 
 
@@ -38,7 +41,7 @@ def login():
                 return redirect(url_for('home'))
         else:
             flash('email address or password was wrong !!! ')
-            return redirect(url_for('login'))
+            return redirect(url_for('users.login'))
     return render_template('login.html', form=form)
 
 @users_blueprint.route('/profile', methods=['POST', 'GET'])

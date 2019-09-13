@@ -7,12 +7,9 @@ class Ticket(db.Model):
     __tablename__ = 'tickets'
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String, nullable=False)
-    body = db.Column(db.String, nullable=False)
-    author = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    ticket_type = db.Column(db.Integer,db.ForeignKey('tickettypes.id'))
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
+    order_id = db.Column(db.Integer,db.ForeignKey('orders.id'))
+    UUID = db.Column(db.Integer,nullable = False)
     created = db.Column(db.DateTime, nullable=False)
-    updated = db.Column(db.DateTime)
-    comments = db.relationship('Comments', backref='posts', cascade="all, delete-orphan", lazy='dynamic')
-    views = db.Column(db.Integer, default = 0)
-    flags = db.relationship('Flag', backref='posts',cascade="all, delete-orphan", lazy='dynamic')
-    
+    redeemed = db.Column(db.String)

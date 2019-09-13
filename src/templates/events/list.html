@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block content %}
+<div class="jumbotron">
+  <h1>Here is a list of all available events.</h1>
+  <div style=" display: flex; flex-direction: row">
+    {% for event in events %}
+    <div class="card" style="width: 30rem;">
+      <img src="{{event.image_url}}" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title" 
+        onclick = "window.location.href=`{{url_for('events.single_event', id = event.id)}}`"
+        >{{event.name}}</h5>
+        <p class="card-text">{{event.description}}</p>
+        <a href="#" class="btn btn-primary">Ticket</a>
+        <p> Created: {{event.created.strftime("%d/%m/%y")}}</p>
+        <i class="fa fa-eye ml-3" aria-hidden="true"> {{event.views}}</i>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">{{event.price}}</li>
+        <li class="list-group-item">{{event.address}}</li>
+        <li class="list-group-item">{{event.time}}</li>
+      </ul>
+    </div>
+
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
