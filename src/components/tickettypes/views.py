@@ -5,64 +5,43 @@ from datetime import datetime
 from src import db
 
 from src.components.tickettypes.forms import AddType, DelType
+from src.models.event import Event
 from src.models.tickettype import Tickettype
 
 tickettypes_blueprint = Blueprint('tickettypes',
                              __name__,
                              template_folder='../../templates/tickettypes')
 
-@ticketypes_blueprint.route('/add', methods=['GET', 'POST'])
+@tickettypes_blueprint.route('/add/<id>', methods=['GET', 'POST'])
 @login_required
-def add():
+def addtype(id):
     form = AddType()
+    newevent = Event.query.filter_by(id=id).first()
     if request.method == 'POST':
-        if form.validate_on_submit():
-            if form.datetimeend.data:
+        if newevent:
+            if form.validate_on_submit():
                 newtype =Tickettype(name=form.name.data,
-                                description = form.description.data,
-                                image_url = form.image_url.data,
-                                address = form.address.data,
-                                datetimestart = datetime.strptime(form.datetimestart.data,"%m/%d/%Y %H:%M"),
-                                created = datetime.now(),
-                                datetimeend = datetime.strptime(form.datetimeend.data, "%m/%d/%Y %H:%M"))
-            else:
-                newtype =Tickettype(name=form.name.data,
-                                description = form.description.data,
-                                image_url = form.image_url.data,
-                                address = form.address.data,
-                                datetimestart = datetime.strptime(form.datetimestart.data,"%m/%d/%Y %H:%M"),
-                                created = datetime.now()
+                                price = form.price.data,
+                                stockquantity = form.stockquantity.data,
                                 )
-            current_user.event.append(newtype)
-            db.session.add(newtype)
-            db.session.commit()
-            db.session.commit()
+                newevent.tickettypes.append(newtype)
+                db.session.add(newtype)
+                db.session.commit()
+                print ("check1")
         else:
             for field_name, errors in form.errors.items():
                 flash(errors)
-                return redirect(url_for('add'))
-        return redirect(url_for('home'))
-    return render_template('add.html', form=form)
+                print ("check error")
+                return redirect(url_for('addtype'))
+    return render_template('addtype.html', form=form)
 
-@ticketypes_blueprint.route('/list')
+@tickettypes_blueprint.route('/list')
 def list():
     # Grab a list of events from database.
     types = Tickettype.query.all()
     return render_template('list.html', types = types)
 
-@ticketypes_blueprint.route('/singleevent/<id>', methods = ['POST', 'GET'])
-@login_required
-def single_event(id):
-    type = Tickettype.query.filter_by(id = id).first()
-    print("check single", id)
-    if type:
-        event.views += 1
-        db.session.commit()
-    return render_template('single_event.html', tpye = type )
-
-
-
-@ticketypes_blueprint.route('/delete/<id>', methods=['GET'])
+@tickettypes_blueprint.route('/delete/<id>', methods=['GET'])
 @login_required
 def delete(id):
     print('check', id)

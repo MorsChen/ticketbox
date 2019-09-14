@@ -1,4 +1,5 @@
 from src import db
+from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 
@@ -11,7 +12,7 @@ class Event(db.Model):
     owner_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     description = db.Column(db.Text, nullable=False)
     image_url = db.Column(db.String, nullable=False)
-    tickettype = db.relationship('Tickettype',backref='events', cascade="all, delete-orphan", lazy='dynamic')
+    tickettypes = db.relationship('Tickettype',backref='events', cascade="all, delete-orphan", lazy='dynamic')
     address = db.Column(db.String(200), nullable=False)
     datetimestart = db.Column(db.DateTime, nullable=False)
     datetimeend = db.Column(db.DateTime)
