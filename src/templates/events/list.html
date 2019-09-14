@@ -19,7 +19,8 @@
         <i class="fa fa-eye ml-3" aria-hidden="true"> {{event.views}}</i>
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">{{event.datetimestart}}</li>
+        <li class="list-group-item"> Date: {{event.datetimestart.strftime("%d/%m/%y")}}  </li>
+        <li class="list-group-item"> Time: {{event.datetimestart.strftime('%H:%M')}} - {{"Until late" if event.datetimeend == None else event.datetimeend.strftime('%H:%M') }}</li>
         <li class="list-group-item">{{event.address}}</li>
         <li class="list-group-item">{{event.time}}</li>
       </ul>
