@@ -1,4 +1,5 @@
 from src import db
+from flask_sqlalchemy import SQLAlchemy 
 
 class Tickettype(db.Model):
 
@@ -8,7 +9,7 @@ class Tickettype(db.Model):
     event_id = db.Column(db.Integer,db.ForeignKey('events.id'))
     name = db.Column(db.String(100))
     price = db.Column(db.Integer, default = 0)
-    stockquanity = db.Column(db.Integer, default = 0)
+    stockquantity = db.Column(db.Integer, default = 0)
     restquantity = db.Column(db.Integer)
     ticket = db.relationship('Ticket', backref='tickettypes', cascade="all, delete-orphan", lazy='dynamic')
     
