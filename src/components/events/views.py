@@ -18,18 +18,31 @@ def add():
     form = AddForm()
     if request.method == 'POST':
         if form.validate_on_submit():
-            newevent = Event(name=form.name.data,
-                            description = form.description.data,
-                            image_url = form.image_url.data,
-                            price = form.price.data,
-                            address = form.address.data,
-                            time = form.time.data,
-                            created = datetime.now())
+            if form.datetimeend.data:
+                    newevent =Event(name=form.name.data,
+                                    description = form.description.data,
+                                    image_url = form.image_url.data,
+                                    address = form.address.data,
+                                    datetimestart = datetime.strptime(form.datetimestart.data,"%m/%d/%Y %H:%M"),
+                                    created = datetime.now(),
+                                    datetimeend = datetime.strptime(form.datetimeend.data, "%m/%d/%Y %H:%M"))
+            else:
+                newevent = Event(name=form.name.data,
+                                description = form.description.data,
+                                image_url = form.image_url.data,
+                                address = form.address.data,
+                                datetimestart = datetime.strptime(form.datetimestart.data,"%m/%d/%Y %H:%M"),
+                                created = datetime.now()
+                                )
             current_user.event.append(newevent)
             db.session.add(newevent)
             db.session.commit()
-            print('check',uuid.uuid4())
-        return redirect(url_for('events.add'))
+            db.session.commit()
+        else:
+            for field_name, errors in form.errors.items():
+                flash(errors)
+                return redirect(url_for('add'))
+        return redirect(url_for('home'))
     return render_template('add.html', form=form)
 
 @events_blueprint.route('/list')
@@ -42,6 +55,7 @@ def list():
 @login_required
 def single_event(id):
     event = Event.query.filter_by(id = id).first()
+    print("check single", id)
     if event:
         event.views += 1
         db.session.commit()
@@ -49,16 +63,15 @@ def single_event(id):
 
 
 
-@events_blueprint.route('/delete', methods=['GET', 'POST'])
-def delete():
-
-    form = DelForm()
-
-    if form.validate_on_submit():
-        id = form.id.data
-        pup = Event.query.get(id)
-        db.session.delete(pup)
-        db.session.commit()
-
-        return redirect(url_for('events.list'))
-    return render_template('delete.html', form=form)
+@events_blueprint.route('/delete/<id>', methods=['GET'])
+@login_required
+def delete(id):
+    print('check', id)
+    event = Event.query.filter_by(id=id).first()
+    if Event.query.filter_by(id=id, owner_id=current_user.id).first():
+            db.session.delete(event)
+            db.session.commit()
+            flash("Event successfully deleted!", 'success')
+    else:
+        flash("You are not authorized to delete this event", "danger")
+    return redirect(url_for('events.list'))

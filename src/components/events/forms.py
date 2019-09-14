@@ -11,7 +11,8 @@ class AddForm(FlaskForm):
     image_url = StringField('Image URL:', validators=[DataRequired('Please input Image Url')])
     price = IntegerField('Price:', validators=[DataRequired('Please input Price')])
     address = StringField('Address:', validators=[DataRequired('Please input your Address')])
-    time = StringField('Date:')
+    datetimestart = StringField('Date-Time-Start:')
+    datetimeend = StringField('Date-Time-End:')
     submit = SubmitField('Add Event')
 
 
