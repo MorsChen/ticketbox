@@ -13,7 +13,9 @@ class Event(db.Model):
     image_url = db.Column(db.String, nullable=False)
     tickettype = db.relationship('Tickettype',backref='events', cascade="all, delete-orphan", lazy='dynamic')
     address = db.Column(db.String(200), nullable=False)
-    time = db.Column(db.String, nullable=False)
+    datetimestart = db.Column(db.String, nullable=False)
+    datetimeend = db.Column(db.String, default='Until late')
     views = db.Column(db.Integer, default = 0)
     created = db.Column(db.DateTime, nullable=False)
     updated = db.Column(db.DateTime)
+    

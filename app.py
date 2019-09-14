@@ -4,8 +4,7 @@ from flask import Flask, render_template, redirect, url_for
 
 @app.route('/')
 def home():
-   
-    return render_template('home.html')
+    return redirect(url_for('events.list'))
 
 
 if __name__ == '__main__':
