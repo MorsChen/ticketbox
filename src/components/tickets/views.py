@@ -13,7 +13,7 @@ tickets_blueprint = Blueprint('tickets',
                              template_folder='../../templates/tickets')
 
 
-@tickets_blueprint.route('/addticket', methods=['POST','GET'])
+@tickets_blueprint.route('/add', methods=['POST','GET'])
 @login_required
 def addticket():
     
