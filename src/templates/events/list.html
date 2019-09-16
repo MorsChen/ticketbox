@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% block content %}
+<div class="jumbotron">
+  <h1>Here is a list of all available events.</h1>
+  <div style=" display: flex; flex-direction: row; width: 100%">
+    {% for event in events %}
+    <div class="card" style="width: 40rem;">
+      <img src="{{event.image_url}}" class="card-img-top" alt="..."
+      onclick = "window.location.href=`{{url_for('events.single_event', id = event.id)}}`">
+      <a class="btn btn-primary"
+      onclick = "window.location.href=`{{url_for('events.delete', id=event.id)}}`"
+      >Delete {{event.id}}</a>
+      <div class="card-body">
+        <h5 class="card-title" 
+        onclick = "window.location.href=`{{url_for('events.single_event', id = event.id)}}`"
+        >{{event.name}}</h5>
+        <a href="#" class="btn btn-primary">Ticket</a>
+        <p> Created: {{event.created.strftime("%d/%m/%y %H:%M")}}</p>
+        <i class="fa fa-eye ml-3" aria-hidden="true"> {{event.views}}</i>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"> Date: {{event.datetimestart.strftime("%d/%m/%y")}}  </li>
+        <li class="list-group-item"> Time: {{event.datetimestart.strftime('%H:%M')}} - {{"Until late" if event.datetimeend == None else event.datetimeend.strftime('%H:%M') }}</li>
+        <li class="list-group-item">{{event.address}}</li>
+      </ul>
+    </div>
+
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

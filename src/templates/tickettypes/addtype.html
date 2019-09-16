@@ -6,12 +6,11 @@
     {# This hidden_tag is a CSRF security feature. #}
     {{ form.hidden_tag() }}
     {{ form.name.label }} {{ form.name() }} <br>
-    {{ form.description.label }} {{ form.description() }} <br>
-    {{ form.image_url.label }} {{ form.image_url() }} <br>
     {{ form.price.label }} {{ form.price() }} <br>
-    {{ form.address.label }} {{ form.address() }} <br>
-    {{ form.time.label }} {{ form.time() }} <br>
+    {{ form.stockquantity.label }} {{ form.stockquantity() }}<br>
     {{ form.submit() }}
+    <a  onclick = "window.location.href=`{{url_for('home')}}`" class="btn btn-primary">Done</a>
+    
   </form>
 </div>
 {% endblock %}

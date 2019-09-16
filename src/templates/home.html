@@ -3,6 +3,23 @@
     <div class="basic-content">
         <h1 class="h1-title"> Hello world </h1>
         {% if not current_user.is_authenticated %}
+        {% for event in events %}
+            <div class="card" style="width: 60rem;">
+            <img src="{{event.image_url}}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{event.name}}</h5>
+                <p class="card-text">{{event.description}}</p>
+                <a href="#" class="btn btn-primary">Ticket</a>
+                <p> Created: {{event.created.strftime("%d/%m/%y")}}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">{{event.price}}</li>
+                <li class="list-group-item">{{eventaddress}}</li>
+                <li class="list-group-item">{{event.time.strftime("%d/%m/%y")}}</li>
+            </ul>
+            </div>
+
+    {% endfor %}
         {%else%}
         <h1 class="h1-title">{{current_user.username}}</h1>
         {%endif%}

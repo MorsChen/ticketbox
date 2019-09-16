@@ -1,0 +1,71 @@
+{% extends "base.html" %} {% block content %}
+<div class="jumbotron">
+  <div>
+    <div class="card" style="width: 100%">
+        <img src="{{event.image_url}}" class="card-img-top" alt="...">
+        <h5 class="display-4" 
+        onclick = "window.location.href=`{{url_for('events.single_event', id = event.id)}}`"
+        >{{event.name}}</h5>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"> Date: {{event.datetimestart.strftime("%d/%m/%y")}}  </li>
+            <li class="list-group-item"> Time: {{event.datetimestart.strftime('%H:%M')}} - 
+              {{"Until late" if event.datetimeend == None else event.datetimeend.strftime('%H:%M') }}</li>
+            <li class="list-group-item">{{event.address}}</li>
+          </ul>
+        <a class="btn btn-primary"
+        onclick = "window.location.href=`{{url_for('events.delete', id=event.id)}}`"
+        >Delete {{event.id}}</a>
+        <a class="btn btn-primary"
+        onclick = "window.location.href=`{{url_for('events.editevent', id=event.id)}}`"
+        >Edit Event {{event.id}}</a></div>
+      <div class="row">
+      <div class="col-7">
+        
+        <div class="overflow-auto">
+          <h3 class="display-8">About</h3>
+          <p class="card-text">{{event.description}}</p></div>
+        
+        <a class="btn btn-primary"
+        onclick = "window.location.href=`{{url_for('tickettypes.addtype', id=event.id)}}`"
+        >Add Ticket Type</a>
+        <p> Created: {{event.created.strftime("%d/%m/%y")}}</p>
+        <i class="fa fa-eye ml-3" aria-hidden="true"> {{event.views}}</i>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"> Date: {{event.datetimestart.strftime("%d/%m/%y")}}  </li>
+          <li class="list-group-item"> Time: {{event.datetimestart.strftime('%H:%M')}} - {{"Until late" if event.datetimeend == None else event.datetimeend.strftime('%H:%M') }}</li>
+          <li class="list-group-item">{{event.address}}</li>
+        </ul><br/>
+        <div>
+            <h5>TICKET INFORMATION</h5>
+            {% for tickettype in tickettypes %}
+            <li class="list-group-item">
+              <div class="row justify-content-md-between">
+                <div class="col col-lg-2">{{tickettype.name}}</div>
+                <div class="col-md-auto">{{tickettype.price}}</div>
+                <div >Quantity :{{tickettype.stockquantity}}</div>
+              </div></li>
+              {%endfor%}
+              <a class="btn btn-primary"
+                onclick = "window.location.href=`{{url_for('tickettypes.addtype', id=event.id)}}`"
+                >Edit Ticket Type</a>
+        </div>
+
+        
+      </div>
+      <div class="col-5  jumbotron">
+        <h3 class="display-8">{{event.name}}</h3>
+        <li class="list-group-item"> Date: {{event.datetimestart.strftime("%d/%m/%y")}}  </li>
+          <li class="list-group-item"> Time: {{event.datetimestart.strftime('%H:%M')}} - {{"Until late" if event.datetimeend == None else event.datetimeend.strftime('%H:%M') }}</li>
+          <li class="list-group-item">{{event.address}}</li>
+        <hr class="my-4">
+        {% for tickettype in tickettypes %}
+        <li class="list-group-item">
+          <div>{{tickettype.name}}</div>
+        </li>
+        {%endfor%}
+        <a class="btn btn-primary btn-lg" href="#" role="button">BOOK NOW</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

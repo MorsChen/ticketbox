@@ -1,5 +1,6 @@
 from src import db
 from flask_login import UserMixin
+from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
@@ -12,7 +13,10 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String, nullable=False)
     address = db.Column(db.String(100), nullable=False)
     phone =  db.Column(db.String(13), nullable=False)
-    event = db.relationship('Event',backref='user', cascade="all, delete-orphan", lazy='dynamic')
+    event = db.relationship('Event',backref='users', cascade="all, delete-orphan", lazy='dynamic')
+    ticket = db.relationship('Ticket',backref='users', cascade="all, delete-orphan", lazy='dynamic')
+    order = db.relationship('Order',backref='users', cascade="all, delete-orphan", lazy='dynamic')
+    
     
     def set_pass(self, passw):
             self.password = generate_password_hash(passw)

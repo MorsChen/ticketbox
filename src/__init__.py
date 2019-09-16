@@ -34,8 +34,8 @@ app.register_blueprint(users_blueprint, url_prefix='/users')
 from src.components.tickets.views import tickets_blueprint
 app.register_blueprint(tickets_blueprint, url_prefix='/tickets')
 
-from src.components.posts.views import posts_blueprint
-app.register_blueprint(posts_blueprint, url_prefix='/posts')
+from src.components.tickettypes.views import tickettypes_blueprint
+app.register_blueprint(tickettypes_blueprint, url_prefix='/tickettypes')
 
 
 from src.models.user import User
