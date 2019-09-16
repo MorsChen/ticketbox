@@ -21,7 +21,7 @@ def register():
             new_user.set_pass(form.password.data)
             db.session.add(new_user)
             db.session.commit()
-            return redirect(url_for('home'))
+            return redirect(url_for('users.login'))
         else:
             for field_name, errors in form.errors.items():
                 flash(errors)

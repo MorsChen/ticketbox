@@ -26,19 +26,16 @@ def add():
                             image_url = form.image_url.data,
                             address = form.address.data,
                             datetimestart = datetime.strptime(form.datetimestart.data,"%m/%d/%Y %H:%M"),
-                            created = datetime.now()
+                            created = datetime.now(), 
+                            datetimeend = None if not form.datetimeend.data else datetime.strptime(form.datetimeend.data, "%m/%d/%Y %H:%M")
                             )
-            if form.datetimeend.data:
-                    newevent =Event(datetimeend = datetime.strptime(form.datetimeend.data, "%m/%d/%Y %H:%M"))
-            else:
-                current_user.event.append(newevent)
-                db.session.add(newevent)
-                db.session.commit()
-                return redirect(url_for('tickettypes.addtype',id = newevent.id))
-    else:
-        for field_name, errors in form.errors.items():
-            flash(errors)
-            return redirect(url_for('events.add'))
+            current_user.event.append(newevent)
+            db.session.add(newevent)
+            db.session.commit()
+            return redirect(url_for('tickettypes.addtype',id = newevent.id))
+        else:
+            for field_name, errors in form.errors.items():
+                flash(errors)
     return render_template('add.html', form=form)
 
 @events_blueprint.route('/list')
@@ -75,14 +72,10 @@ def editevent(id):
         event.description = form.description.data
         event.image_url = form.image_url.data
         event.address = form.address.data
-        event.datetimestart = datetime.strptime(form.datetimestart.data,"%m/%d/%Y %H:%M")
+        event.datetimestart = datetime.strptime(form.datetimestart.data,"%m/%d/%Y %H:%M") > datetime.now()
         event.updated = datetime.now()
-        print ('check edit Event 1')
-        if form.datetimeend.data:
-            event.datetimeend = datetime.strptime(form.datetimeend.data, "%m/%d/%Y %H:%M")
-            db.session.commit()
-        else:
-            db.session.commit()  
+        event.datetimeend = None if not form.datetimeend.data else datetime.strptime(form.datetimeend.data, "%m/%d/%Y %H:%M") > event.datetimestart
+        db.session.commit()  
         return redirect(url_for('events.single_event', id = id))
     return render_template('editevent.html', form = form, event = event)
 

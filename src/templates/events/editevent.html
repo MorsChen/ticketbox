@@ -5,13 +5,12 @@
   <form method="POST">
     {# This hidden_tag is a CSRF security feature. #}
     {{ form.hidden_tag() }}
-    {{ form.name.label }} {{ form.name() }} <br>
-    {{ form.description.label }} {{ form.description() }} <br>
-    {{ form.image_url.label }} {{ form.image_url() }} <br>
-    {{ form.price.label }} {{ form.price() }} <br>
-    {{ form.address.label }} {{ form.address() }} <br>
-    {{ form.datetimestart.label }} {{ form.datetimestart() }}<br>
-    {{ form.datetimeend.label }} {{ form.datetimeend() }} <br>
+    {{ form.name.label }} {{ form.name( value=event.name) }} <br>
+    {{ form.description.label }} {{ form.description(value = event.description) }} <br>
+    {{ form.image_url.label }} {{ form.image_url(value= event.image_url) }} <br>
+    {{ form.address.label }} {{ form.address(value = event.address) }} <br>
+    {{ form.datetimestart.label }} {{ form.datetimestart(value = event.datetimestart.strftime("%m/%d/%Y %H:%M")) }}<br>
+    {{ form.datetimeend.label }} {{ form.datetimeend() }} {{"Until late" if event.datetimeend == None else event.datetimeend.strftime("%m/%d/%Y %H:%M")}} <br>
     {{ form.submit() }}
   </form>
 </div>
