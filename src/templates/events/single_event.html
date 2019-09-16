@@ -26,7 +26,7 @@
           <p class="card-text">{{event.description}}</p></div>
         
         <a class="btn btn-primary"
-        onclick = "window.location.href=`{{url_for('tickettypes.addtype', id=event.id)}}`"
+        href="{{url_for('tickettypes.addtype', id=event.id)}}"
         >Add Ticket Type</a>
         <p> Created: {{event.created.strftime("%d/%m/%y")}}</p>
         <i class="fa fa-eye ml-3" aria-hidden="true"> {{event.views}}</i>
@@ -42,12 +42,48 @@
               <div class="row justify-content-md-between">
                 <div class="col col-lg-2">{{tickettype.name}}</div>
                 <div class="col-md-auto">{{tickettype.price}}</div>
-                <div >Quantity :{{tickettype.stockquantity}}</div>
-              </div></li>
+                <div>Quantity :{{tickettype.stockquantity}}</div>
+              </div>
+              <div class="row justify-content-md-between">
+              <div class="row ml-3">
+              <a class="btn btn-primary" role="button"
+                href="{{url_for('tickettypes.edittype', id=event.id, typeid=tickettype.id)}}"
+                >Edit</a>
+              <a class="btn btn-primary" role="button"
+                href="{{url_for('tickettypes.delete', id=event.id, typeid=tickettype.id)}}"
+                >Delete</a>
+              
+              </div>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                  BOOK NOW
+                </button>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">WHAT YOU NEED</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body row justify-content-md-between">
+                          <div class="row ml-3">Ticket Type: <br> Quantity : <br> How much: </div>
+                          <div class="row mr-3">{{tickettype.name}} <br> {{tickettype.stockquantity}} <br> <input style="font-size: 15px" placeholder="add"/></div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">add to Cart</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
               {%endfor%}
-              <a class="btn btn-primary"
-                onclick = "window.location.href=`{{url_for('tickettypes.addtype', id=event.id)}}`"
-                >Edit Ticket Type</a>
+              <a class="btn btn-primary btn-lg" role="button"
+                href="{{url_for('tickettypes.editallticket', id=event.id)}}"
+                >Edit All Ticket</a>
         </div>
 
         

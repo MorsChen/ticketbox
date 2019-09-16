@@ -1,0 +1,16 @@
+{% extends "base.html" %} {% block content %}
+<div class="jumbotron">
+  <h1>Edit Ticket Type</h1>
+  <p>Edit Ticket Type with the form below:</p>
+  <form method="POST">
+    {# This hidden_tag is a CSRF security feature. #}
+    {{ form.hidden_tag() }}
+    <p>{{tickettype.id}}</p>
+    {{ form.name.label }} {{ form.name(value = tickettype.name) }} <br>
+    {{ form.price.label }} {{ form.price(value = tickettype.price) }} <br>
+    {{ form.stockquantity.label }} {{ form.stockquantity(value = tickettype.stockquantity) }}<br>
+    {{ form.submit() }}
+    <a  onclick = "window.location.href=`{{url_for('events.single_event', id = event.id)}}`" class="btn btn-primary">Done</a><br>
+  </form>
+</div>
+{% endblock %}
